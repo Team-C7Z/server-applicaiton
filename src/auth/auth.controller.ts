@@ -1,14 +1,18 @@
 import { AuthService } from './auth.service';
-import { ConfigService } from '@nestjs/config';
-import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   /**
    * Passport를 통한 카카오 소셜 로그인
@@ -27,5 +31,15 @@ export class AuthController {
   async kakaoLoginCallback(@Req() req) {
     console.log(req.user); // strategy의 validate 함수에서 done을 통해 넘겨온 객체
     return this.authService.kakaoLogin(req.user);
+  }
+
+  /**
+   * 이메일 인증번호 전송
+   * - NodeEmailer를 통해 이메일 인증번호 전송
+   * - Redis에 해당 인증번호 저장
+   */
+  @Post('/email-verify')
+  async sendEmailVerifyNumber(@Body('email') email: string) {
+    return await this.authService.sendEmailVerifyNumber(email);
   }
 }
