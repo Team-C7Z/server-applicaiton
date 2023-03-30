@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   HttpStatus,
   Post,
   Req,
@@ -39,7 +40,8 @@ export class AuthController {
    * - Redis에 해당 인증번호 저장
    */
   @Post('/email-verify')
-  async sendEmailVerifyNumber(@Body('email') email: string) {
+  @HttpCode(HttpStatus.CREATED)
+  async sendEmailVerifyNumber(@Body('email') email: string): Promise<boolean> {
     return await this.authService.sendEmailVerifyNumber(email);
   }
 }

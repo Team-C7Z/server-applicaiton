@@ -14,15 +14,15 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       useFactory: (configService: ConfigService) => {
         return {
           transport: {
-            host: '',
+            service: 'naver',
+            host: 'smtp.naver.com',
             port: +configService.get<number>('MAIL_PORT'),
             auth: {
               user: configService.get<string>('MAIL_USER'),
               pass: configService.get<string>('MAIL_PASSWORD'),
             },
           },
-          defaults: {},
-          preview: true,
+          preview: false,
           template: {
             dir: process.cwd() + '/src/templates/',
             adapter: new HandlebarsAdapter(),
