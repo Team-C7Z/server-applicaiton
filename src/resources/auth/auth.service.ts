@@ -24,6 +24,8 @@ export class AuthService {
   async sendEmailVerifyNumber(email: string) {
     const emailVerifyNumber = Math.floor(Math.random() * 1000000); // 6자리 난수 생성
 
+    // TODO: Redis에 이메일과 인증번호 key-value 형태로 저장 & 유효시간 3분?
+
     // 이메일 전송
     await this.mailerService.sendMail({
       to: email, // 이메일 받는 사람의 주소
@@ -38,5 +40,11 @@ export class AuthService {
     });
 
     return true;
+  }
+
+  async checkEmailVerifyNumber(email: string, verifyNumber: string) {
+    // TODO: Redis에서 email에 해당하는 인증번호 가져와서 확인
+    const codeFromRedis = '123456';
+    return codeFromRedis === verifyNumber;
   }
 }

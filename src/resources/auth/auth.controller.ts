@@ -6,10 +6,12 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetEmailVerifyDto } from './dto/get-email-verify.dto';
 
 @Controller('api/auth')
 export class AuthController {
@@ -43,5 +45,19 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async sendEmailVerifyNumber(@Body('email') email: string): Promise<boolean> {
     return await this.authService.sendEmailVerifyNumber(email);
+  }
+
+  /**
+   * 이메일 인증번호 확인
+   * - 사용자가 이메일을 통해 받은 인증번호 확인
+   * - Redis에 저장되어 있는 인증번호랑 비교
+   */
+  @Get('/email-verify')
+  @HttpCode(HttpStatus.OK)
+  async checkEmailVerifyNumber(
+    @Query() getEmailVerifyDto: GetEmailVerifyDto,
+  ): Promise<boolean> {
+    const { email, verifyCode } = getEmailVerifyDto;
+    return await this.authService.checkEmailVerifyNumber(email, verifyCode);
   }
 }
