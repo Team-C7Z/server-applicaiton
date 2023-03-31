@@ -43,8 +43,8 @@ export class AuthController {
    */
   @Post('/email-verify')
   @HttpCode(HttpStatus.CREATED)
-  async sendEmailVerifyNumber(@Body('email') email: string): Promise<boolean> {
-    return await this.authService.sendEmailVerifyNumber(email);
+  async sendEmailVerifyNumber(@Body('email') email: string): Promise<void> {
+    await this.authService.sendEmailVerifyNumber(email);
   }
 
   /**

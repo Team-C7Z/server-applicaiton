@@ -9,7 +9,7 @@ export class CachingService {
     return await this.cacheManager.get(key);
   }
 
-  async set(key: string, value: any, ttl?: number): Promise<any> {
+  async set(key: string, value: any, ttl?: number): Promise<void> {
     // option에서 TTL(만료시간) 설정 가능
     await this.cacheManager.set(key, value, ttl);
   }
