@@ -1,3 +1,4 @@
+import { CachingModule } from './../caching/caching.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
@@ -33,6 +34,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         };
       },
     }),
+    CachingModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, KakaoStrategy],
